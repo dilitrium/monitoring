@@ -1,4 +1,4 @@
-# monitoring_logging
+# monitoring
 
 Спринт 3
 
@@ -33,78 +33,54 @@
 
 РЕШЕНИЕ
 
-  - Я отказался от loghouse по причине отсутствия развития проекта. Я отказался от стэка ELK по причине его "тяжеловестности" и ограничений для РФ
   - Для сборки логов будем использовать Loki: https://artifacthub.io/packages/helm/grafana/loki?modal=install
-
-![Loki-архитектура](https://github.com/MikhailRyzhkin/monitoring_logging/assets/69116076/62e4c632-d58e-48aa-be69-4ddbdd9f017f)
-
-  - Loki хорошо вписывается и интегрируется в предполагаемый стэк мониторинга prometheus. Логи и мониторинг будет в одной grafana.
   - Добавляем репозиторий Loki и перечитываем репозитории:
   ```
-  helm repo add bitnami https://charts.bitnami.com/bitnami -n logging-monitoring && helm repo update
+  helm repo add bitnami https://charts.bitnami.com/bitnami -n monitoring && helm repo update
   ```
   Устанавливаем Loki в кластер k8s из helm chart:
   ```
-  helm install --namespace logging-monitoring loki bitnami/grafana-loki --set global.dnsService=coredns --set spec.type=NodePort --set loki.auth_enabled=false
+  helm install --namespace monitoring loki bitnami/grafana-loki --set global.dnsService=coredns --set spec.type=NodePort --set loki.auth_enabled=false
   ```
 
-![logging-loki-0](https://github.com/MikhailRyzhkin/monitoring_logging/assets/69116076/d22e5e8f-abc4-4ca2-b43d-7490a795a79f)
+![install loki](https://github.com/vajierik/monitoring/assets/150177457/4e92eddf-7193-4aaa-9f42-db2ada65190b)
+
 
   - Для мониторинга кластера и приложения будем использовать Prometheus stack: https://artifacthub.io/packages/helm/prometheus-community/prometheus?modal=install
 
-![Prometheus архитектура](https://github.com/MikhailRyzhkin/monitoring_logging/assets/69116076/52ce48c5-1263-44a2-88f4-6589cb38c39a)
-  
-  - Так как, по условию задачи, весь мониторинг должен находиться на srv-сервере, а не в кластере k8s, то наиболее простой вариант развернуть кластер мониторинга в docker на этом сервере srv вне кластера k8s. 
   Стэк мониторинга - Grafana\Prometheus\Blackbox\Node Exporter\Alertmanager\Loki
   - В каталоге prometheus_stack описываем через docker compose весь наш стэк мониторинга
   - Находясь в каталоге prometheus_stack с файлом docker-compose.yml запускаем развёртывание стэка:
   ```
   docker compose up -d 
   ```
-  - При удачном развёртывании стэка увидем контейнеры компонентов:
-  ```
-  docker ps -a 
-  ```
+  ``
+![docker ps](https://github.com/vajierik/monitoring/assets/150177457/eefca0ec-ded9-4d9a-bf3e-1fc2ce2cc837)
 
-![docker-prometheus-1](https://github.com/MikhailRyzhkin/monitoring_logging/assets/69116076/704be404-011e-4bac-9509-830d2f8780e8)
+ - Подключаем как сервер srv, так и кластер k8s к визуализации метрик и логирования в единой Grafana:
+
+![datasource](https://github.com/vajierik/monitoring/assets/150177457/09534642-4173-4d75-892c-7b2e9eccc730)
+
+- Из registry готовых дэшбордов: https://grafana.com/grafana/dashboards/ выбираем нужные нам дэшборды и по id ставим.
+
+![node_exporter](https://github.com/vajierik/monitoring/assets/150177457/fe7bd92d-85d6-4037-ad62-76b8c4b5ae60)
+
+![prometheus](https://github.com/vajierik/monitoring/assets/150177457/4ab61133-013f-44a1-9626-b8e3a12ca20b)
+
+- Логи нашего приложения из этой же самой grafana:
+
+![logs-app](https://github.com/vajierik/monitoring/assets/150177457/e00e8c7e-4b42-4f54-bcd1-503684232813)
+
+- Адрес grafana для просмотра логов и визуализированных метрик:
+
+  http://51.250.86.66:3000/
   
-  - Подключаем как сервер srv, так и кластер k8s к визуализации метрик и логирования в единой Grafana:
-
-![Prometheus - Data sources](https://github.com/MikhailRyzhkin/monitoring_logging/assets/69116076/0ab25168-5d27-4bf8-870e-df4c2e6e0e10)
-
-  - Из реджистри готовых дэшбордов: https://grafana.com/grafana/dashboards/ выбираем нужные нам дэшборды и по id ставим.
-
-![Dashboards](https://github.com/MikhailRyzhkin/monitoring_logging/assets/69116076/6248ac33-d0d1-4a7a-9d11-c10ed2d004e8)
-
-![Dashboards-1](https://github.com/MikhailRyzhkin/monitoring_logging/assets/69116076/1db8864c-3061-4826-8979-70429058c9d5)
-
-![Dashboards-2](https://github.com/MikhailRyzhkin/monitoring_logging/assets/69116076/f62856f5-50a3-4f87-9919-60c1e876cc41)
-
-
-  - Смотрим логи нашего приложения в нэймспейсе diplom из этой же самой grafana:
-
-![logging-loki](https://github.com/MikhailRyzhkin/monitoring_logging/assets/69116076/e3299c1d-7882-4b9c-8cbf-8d425a2f2d04)
-
-
-  - Адрес grafana для просмотра логов и визуализированных метрик:
-  ```
-  http://51.250.80.225:3000/
-  ```
   - В docker-compouse.yaml файле на сервере srv вносим свои данные телеграмм, перезапускаем контейнер и моделируем срабатывание аллерта
 
-![токены телеги](https://github.com/MikhailRyzhkin/monitoring_logging/assets/69116076/f58fe588-6c37-45ce-a74a-d0a9467b598f)
+![instansedown](https://github.com/vajierik/monitoring/assets/150177457/8c79df55-e18b-4033-a850-ae1fe51a407e)
 
-![telegramm-allert](https://github.com/MikhailRyzhkin/monitoring_logging/assets/69116076/72218f65-d511-46b0-955d-77eb18783f1a)
+![replicas 0](https://github.com/vajierik/monitoring/assets/150177457/ac861e66-717f-4c33-82dd-4c4824926d11)
 
-![Оповещение в телеграм](https://github.com/MikhailRyzhkin/monitoring_logging/assets/69116076/0334c554-4c17-45bd-be18-70a89af13a7d)
+![instanseup](https://github.com/vajierik/monitoring/assets/150177457/f203b0a5-e14c-428f-8ab1-68f05e9a95bb)
 
-
-
-
-
-
-
-
-
-
-
+![resolved](https://github.com/vajierik/monitoring/assets/150177457/42dbd018-8a59-4a07-9999-c83981ca2a7e)
