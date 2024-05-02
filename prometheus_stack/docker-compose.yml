@@ -191,9 +191,8 @@ services:
       - --store=bolt
       - --bolt.path=/data/bot.db
       - --listen.addr=0.0.0.0:8080
-      - --telegram.admin=1106948611
-      - --telegram.token=7071005248:AAF1hgh-DuqGn5T-DIwwNQdddYnivMZAgwY
-#    ports:
+      - --telegram.admin=Your user ID:
+      - --telegram.token=Your token ID
 #      - "8080:8080"
     expose:
       - 8080
