@@ -58,30 +58,28 @@
   ``
 ![docker ps](https://github.com/dilitrium/screendiplom/blob/adc2f8a3b6dcb7eacda7192b1fe6897b7d53579c/monitoring/docker_grafana.png)
 
- - Подключаем как сервер srv, так и кластер k8s к визуализации метрик и логирования в единой Grafana:
-
-![datasource](https://github.com/vajierik/monitoring/assets/150177457/09534642-4173-4d75-892c-7b2e9eccc730)
+ - Подключаем как сервер srv, так и кластер k8s к визуализации метрик и логирования в единой Grafana.
 
 - Из registry готовых дэшбордов: https://grafana.com/grafana/dashboards/ выбираем нужные нам дэшборды и по id ставим.
 
-![node_exporter](https://github.com/vajierik/monitoring/assets/150177457/fe7bd92d-85d6-4037-ad62-76b8c4b5ae60)
+![node_exporter](https://github.com/dilitrium/screendiplom/blob/adc2f8a3b6dcb7eacda7192b1fe6897b7d53579c/monitoring/dashboard-1.png)
 
-![prometheus](https://github.com/vajierik/monitoring/assets/150177457/4ab61133-013f-44a1-9626-b8e3a12ca20b)
+![prometheus](https://github.com/dilitrium/screendiplom/blob/adc2f8a3b6dcb7eacda7192b1fe6897b7d53579c/monitoring/prometheus_status_200.png)
 
 - Логи нашего приложения из этой же самой grafana:
 
-![logs-app](https://github.com/vajierik/monitoring/assets/150177457/e00e8c7e-4b42-4f54-bcd1-503684232813)
+![logs-app](https://github.com/dilitrium/screendiplom/blob/adc2f8a3b6dcb7eacda7192b1fe6897b7d53579c/monitoring/kuber_app_log.png)
 
 - Адрес grafana для просмотра логов и визуализированных метрик:
 
-  http://51.250.86.66:3000/
+  http://89.169.149.21:3000/
   
   - В docker-compouse.yaml файле на сервере srv вносим свои данные телеграмм, перезапускаем контейнер и моделируем срабатывание аллерта
 
-![instansedown](https://github.com/vajierik/monitoring/assets/150177457/8c79df55-e18b-4033-a850-ae1fe51a407e)
+![instansedown](https://https://github.com/dilitrium/screendiplom/blob/adc2f8a3b6dcb7eacda7192b1fe6897b7d53579c/monitoring/app_delete.png)
 
-![replicas 0](https://github.com/vajierik/monitoring/assets/150177457/ac861e66-717f-4c33-82dd-4c4824926d11)
+![replicas 0](https://github.com/dilitrium/screendiplom/blob/adc2f8a3b6dcb7eacda7192b1fe6897b7d53579c/monitoring/sf_bot_alert.png)
 
-![instanseup](https://github.com/vajierik/monitoring/assets/150177457/f203b0a5-e14c-428f-8ab1-68f05e9a95bb)
+![instanseup](https://github.com/dilitrium/screendiplom/blob/adc2f8a3b6dcb7eacda7192b1fe6897b7d53579c/monitoring/app_clear.png)
 
-![resolved](https://github.com/vajierik/monitoring/assets/150177457/42dbd018-8a59-4a07-9999-c83981ca2a7e)
+![resolved](https://github.com/dilitrium/screendiplom/blob/adc2f8a3b6dcb7eacda7192b1fe6897b7d53579c/monitoring/sf_bot_clear.png)
