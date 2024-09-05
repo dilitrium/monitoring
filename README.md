@@ -56,7 +56,7 @@
   docker compose up -d 
   ```
   ``
-![docker ps](https://github.com/vajierik/monitoring/assets/150177457/eefca0ec-ded9-4d9a-bf3e-1fc2ce2cc837)
+![docker ps](https://github.com/dilitrium/screendiplom/blob/adc2f8a3b6dcb7eacda7192b1fe6897b7d53579c/monitoring/docker_grafana.png)
 
  - Подключаем как сервер srv, так и кластер k8s к визуализации метрик и логирования в единой Grafana:
 
