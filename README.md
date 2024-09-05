@@ -43,7 +43,8 @@
   helm install --namespace monitoring loki bitnami/grafana-loki --set global.dnsService=coredns --set spec.type=NodePort --set loki.auth_enabled=false
   ```
 
-![install loki](https://github.com/vajierik/monitoring/assets/150177457/4e92eddf-7193-4aaa-9f42-db2ada65190b)
+![install loki](https://github.com/dilitrium/screendiplom/blob/58fa7195c6862fb34467a9fcd63ced15fde2e030/monitoring/loki_repos.png)
+![install loki](https://github.com/dilitrium/screendiplom/blob/58fa7195c6862fb34467a9fcd63ced15fde2e030/monitoring/loki_install.png)
 
 
   - Для мониторинга кластера и приложения будем использовать Prometheus stack: https://artifacthub.io/packages/helm/prometheus-community/prometheus?modal=install
