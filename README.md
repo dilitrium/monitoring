@@ -33,7 +33,7 @@
 
 РЕШЕНИЕ
 
-  - Для сборки логов будем использовать Loki: https://artifacthub.io/packages/helm/grafana/loki?modal=install
+  - Для сборки диагностической информации будем использовать Loki: https://artifacthub.io/packages/helm/grafana/loki?modal=install
   - Добавляем репозиторий Loki и перечитываем репозитории:
   ```
   helm repo add bitnami https://charts.bitnami.com/bitnami -n monitoring && helm repo update
